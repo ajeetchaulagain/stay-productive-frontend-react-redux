@@ -1,12 +1,12 @@
 # Stay Productive Front End - React/Redux
 
-This is frontend application in React/Redux for a Stay Productive API developed in Node. This application is going to use the [stay-productive-api-node backend](https://github.com/ajeetchaulagain/stay-productive-api-node)
+This is frontend application in React/Redux for a Stay Productive API developed in Node. This application is going to use the [stay-productive-api-node](https://github.com/ajeetchaulagain/stay-productive-api-node) that I built previously.
 
 ## About Stay Productive
 
 Stay productive will be an application that allows you to manage/track your projects and tasks along with inbuilt pomodoro features to help you stay productive while managing your projects and tasks.
 
-(Note: This frontend part of Stay Productive application is not completed yet. But the backend API of this project is completed. Feel free to fork that repo for any kind of your API usage. I had build that API by covering several industry standard best practices. I will make documentation for API out soon to be used for public :) )
+**Note**: This frontend part of Stay Productive application is not completed yet. But the backend API of this project is completed. Feel free to fork that repo for any kind of your API usage. I had build that API by covering several industry standard best practices. I will make documentation for API out soon to be used for public.
 
 ## Get Started
 

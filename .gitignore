@@ -37,3 +37,6 @@ build
 
 # json-server db
 db.json
+
+# Code editor specific file
+.vscode/
