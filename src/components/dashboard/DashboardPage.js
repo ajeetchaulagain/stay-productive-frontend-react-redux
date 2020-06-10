@@ -5,14 +5,19 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as taskActions from "../../redux/actions/taskAction";
 import PropTypes from "prop-types";
+import TaskList from "./TaskList";
 
 class DashboardPage extends Component {
   state = {
     task: {
       title: "",
     },
+    test: "hello there",
   };
 
+  componentDidMount() {
+    console.log("ComponentDidMount called!");
+  }
   handleChange = (event) => {
     const task = { ...this.state.task, title: event.target.value };
     this.setState({ task });
@@ -21,6 +26,8 @@ class DashboardPage extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     this.props.actions.createTask(this.state.task);
+    const task = { ...this.state.task, title: "" };
+    this.setState({ task });
   };
   render() {
     return (
@@ -28,21 +35,12 @@ class DashboardPage extends Component {
         <Pomodoro />
         <div className="row">
           <ProjectList />
-          <div className="col">
-            <form onSubmit={this.handleSubmit}>
-              <input
-                className="form-control mb-4"
-                id="taskInput"
-                type="text"
-                placeholder="Add a task"
-                value={this.state.task.title}
-                onChange={this.handleChange}
-              />
-            </form>
-            {this.props.tasks.map((task) => (
-              <li key={task.title}>{task.title}</li>
-            ))}
-          </div>
+          <TaskList
+            onFormSubmit={this.handleSubmit}
+            tasks={this.props.tasks}
+            onInputChange={this.handleChange}
+            value={this.state.task.title}
+          />
         </div>
       </div>
     );
