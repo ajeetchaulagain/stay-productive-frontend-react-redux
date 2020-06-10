@@ -3,24 +3,26 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="container-fluid">
-      <nav className="navbar navbar-dark bg-dark">
+    <nav className="navbar navbar-dark bg-dark navbar-expand-sm">
+      <div className="container">
         <NavLink className="navbar-brand" to="/">
           <img src="./src/favicon.ico" width="30" height="30" alt="" />
           {"  "}
           StayProductive
         </NavLink>
-        <NavLink to="/" activeStyle={{ color: "#ff0055" }} exact>
-          Home
-        </NavLink>
-        <NavLink to="/about" activeStyle={{ color: "#ff0055" }} exact>
-          About
-        </NavLink>
-        <NavLink to="/dashboard" activeStyle={{ color: "#ff0055" }} exact>
-          Dashboard
-        </NavLink>
-      </nav>
-    </div>
+        <div className="navbar-nav align-items-center">
+          <NavLink to="/" exact className="nav-item nav-link">
+            Home
+          </NavLink>
+          <NavLink to="/dashboard" exact className="nav-item nav-link">
+            Dashboard
+          </NavLink>
+          <NavLink to="/about" exact className="nav-item nav-link ">
+            About
+          </NavLink>
+        </div>
+      </div>
+    </nav>
   );
 };
 

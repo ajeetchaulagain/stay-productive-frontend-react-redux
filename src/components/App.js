@@ -5,6 +5,7 @@ import AboutPage from "./about/AboutPage";
 import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
 import DashboardPage from "./dashboard/DashboardPage";
+import Footer from "./common/Footer";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route component={PageNotFound}></Route>
         </Switch>
       </div>
+      <Footer />
     </React.Fragment>
   );
 };
