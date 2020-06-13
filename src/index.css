@@ -4,4 +4,16 @@
 
 .footer p {
   color: white;
+  /* position: fixed; */
+  bottom: 0;
+}
+
+/* ul.list-group {
+  min-height: 300px;
+  max-height: 300px;
+  overflow-y: scroll;
+} */
+
+div.list-group {
+  height: auto;
 }

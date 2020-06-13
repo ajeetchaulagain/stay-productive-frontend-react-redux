@@ -1,13 +1,12 @@
 import * as types from "../actions/actionTypes";
 
-const courseReducer = (state = [], action) => {
+const projectReducer = (state = [], action) => {
   debugger;
   switch (action.type) {
-    case types.CREATE_TASK:
+    case types.CREATE_PROJECT:
       return [...state, { ...action.task }];
     default:
       return state;
   }
 };
-
-export default courseReducer;
+export default projectReducer;
