@@ -1,7 +1,6 @@
 import * as types from "../actions/actionTypes";
 
-const courseReducer = (state = [], action) => {
-  debugger;
+const taskReducer = (state = [], action) => {
   switch (action.type) {
     case types.CREATE_TASK:
       return [...state, { ...action.task }];
@@ -10,4 +9,4 @@ const courseReducer = (state = [], action) => {
   }
 };
 
-export default courseReducer;
+export default taskReducer;

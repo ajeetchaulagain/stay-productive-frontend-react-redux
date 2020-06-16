@@ -1,0 +1,11 @@
+{
+  "_original": { "email": "", "username": "", "password": "" },
+  "details": [
+    {
+      "message": "\"username\" is not allowed to be empty",
+      "path": ["username"],
+      "type": "string.empty",
+      "context": { "label": "username", "value": "", "key": "username" }
+    }
+  ]
+}

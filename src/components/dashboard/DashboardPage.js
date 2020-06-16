@@ -1,5 +1,4 @@
 // import Pomodoro from "./Pomodoro";
-
 import React, { Component } from "react";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -8,6 +7,7 @@ import * as projectActions from "../../redux/actions/projectActions";
 import PropTypes from "prop-types";
 import TaskSection from "./TaskSection";
 import ProjectSection from "./ProjectSection";
+import { toast } from "react-toastify";
 
 class DashboardPage extends Component {
   state = {
@@ -28,30 +28,30 @@ class DashboardPage extends Component {
     this.setState({ task });
   };
 
-  // handle submit of the
+  // handle
   handleSubmit = (event) => {
-    debugger;
     event.preventDefault();
     this.props.createTask(this.state.task);
     const task = { ...this.state.task, title: "" };
     this.setState({ task });
+    toast.success("Task Added", { autoClose: 1000, hideProgressBar: true });
   };
 
   handleProjectFormSubmit = (event) => {
     event.preventDefault();
-    debugger;
     this.props.createProject(this.state.project);
     const project = { ...this.state.project, title: "" };
     this.setState({ project });
+    toast.info("Project Saved", { autoClose: 1000, hideProgressBar: true });
   };
 
   handleProjectInputChange = (event) => {
     const project = { ...this.state.project, title: event.target.value };
     this.setState({ project });
+    console.log("state object-", this.state);
   };
 
   render() {
-    console.log("projects-", this.props.projects);
     return (
       <div className="container px-0 mt-1 ml-0 px-0 pb-5 h-100">
         <br />
@@ -82,18 +82,20 @@ DashboardPage.propTypes = {
   projects: PropTypes.array.isRequired,
 };
 
+// Mapping State to Props
 const mapStateToProps = (state) => {
-  debugger;
   return {
     tasks: state.tasks,
     projects: state.projects,
   };
 };
 
+// Mapping Dispatch to Props
 const mapDispatchToProps = {
   createTask: taskActions.createTask,
   createProject: projectActions.createProject,
 };
+
 // const mapDispatchToProps = (dispatch) => {
 //   debugger;
 //   return {

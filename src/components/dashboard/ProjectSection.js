@@ -14,16 +14,8 @@ const ProjectSection = (props) => {
             className="list-group-item list-group-item-action"
             key={project.title}
           >
-            Test Project ..
+            {project.title}
           </li>
-          // <a
-          //   key={project.title}
-          //   href="#"
-          //   className="list-group-item list-group-item-action
-          //   d-flex justify-content-between align-items-center"
-          // >
-          //   {project.title}
-          // </a>
         ))}
       </div>
       <br />
