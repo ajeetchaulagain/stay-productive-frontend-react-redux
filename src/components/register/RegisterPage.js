@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import Joi from "@hapi/joi";
 import { toast } from "react-toastify";
 import { PropTypes } from "prop-types";
+import * as authActions from "../../store/actions/authActions";
+import { connect } from "react-redux";
 
-const RegisterPage = ({ history }) => {
+const RegisterPage = (props) => {
   console.log("RegisterPage");
 
   const [data, setData] = useState({
     email: "",
-    username: "",
+    fullname: "",
     password: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -26,7 +30,7 @@ const RegisterPage = ({ history }) => {
 
   const validateFormData = (data) => {
     const schema = Joi.object({
-      username: Joi.string().required(),
+      fullname: Joi.string().required(),
       password: Joi.string().required(),
       email: Joi.string().email({
         minDomainSegments: 2,
@@ -50,10 +54,25 @@ const RegisterPage = ({ history }) => {
       return;
     }
 
-    history.push("/dashboard");
-    toast.success("Successfully logged in", {
-      hideProgressBar: true,
-    });
+    console.log("user-->", data);
+    setSaving(true);
+    props
+      .registerUser(data)
+      .then(() => {
+        props.history.push("/dashboard");
+        toast.success("Successfully logged in", {
+          hideProgressBar: true,
+        });
+      })
+      .catch((errorMessage) => {
+        if (errorMessage) {
+          setServerError(errorMessage);
+          setSaving(false);
+          toast.error(errorMessage, {
+            hideProgressBar: true,
+          });
+        }
+      });
   };
 
   return (
@@ -77,18 +96,18 @@ const RegisterPage = ({ history }) => {
           )}
         </div>
         <div className="form-group has-error">
-          <label htmlFor="username">Full Name:</label>
+          <label htmlFor="fullname">Full Name:</label>
           <input
             type="text"
             className="form-control"
-            name="username"
-            placeholder="Enter your username"
-            value={data.username}
+            name="fullname"
+            placeholder="Enter your full name"
+            value={data.fullname}
             onChange={handleChange}
           />
-          {errors.username && (
+          {errors.fullname && (
             <small id="emailHelp" className="form-text text-danger">
-              {errors.username}
+              {errors.fullname}
             </small>
           )}
         </div>
@@ -110,17 +129,30 @@ const RegisterPage = ({ history }) => {
         </div>
 
         <div className="form-group">
-          <button type="submit" className="btn btn-primary">
-            Register
+          <button type="submit" className="btn btn-primary" disabled={saving}>
+            {!saving ? "Register" : "Registering..."}
           </button>
         </div>
       </form>
+      {serverError && <p>{serverError}</p>}
     </div>
   );
 };
 
 RegisterPage.propTypes = {
   history: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  registerUser: PropTypes.func.isRequired,
 };
 
-export default RegisterPage;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  registerUser: authActions.registerUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

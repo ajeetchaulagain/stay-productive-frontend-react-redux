@@ -2,8 +2,8 @@
 import React, { Component } from "react";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as taskActions from "../../redux/actions/taskActions";
-import * as projectActions from "../../redux/actions/projectActions";
+import * as taskActions from "../../store/actions/taskActions";
+import * as projectActions from "../../store/actions/projectActions";
 import PropTypes from "prop-types";
 import TaskSection from "./TaskSection";
 import ProjectSection from "./ProjectSection";
@@ -21,6 +21,7 @@ class DashboardPage extends Component {
 
   componentDidMount() {
     console.log("ComponentDidMount called!");
+    this.props.loadProject();
   }
 
   handleChange = (event) => {
@@ -80,6 +81,7 @@ DashboardPage.propTypes = {
   createTask: PropTypes.func.isRequired,
   tasks: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
+  loadProject: PropTypes.func.isRequired,
 };
 
 // Mapping State to Props
@@ -93,6 +95,7 @@ const mapStateToProps = (state) => {
 // Mapping Dispatch to Props
 const mapDispatchToProps = {
   createTask: taskActions.createTask,
+  loadProject: projectActions.loadProject,
   createProject: projectActions.createProject,
 };
 

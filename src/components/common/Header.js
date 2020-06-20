@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
 
-const Header = () => {
+const Header = ({ user }) => {
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-sm">
       <div className="container">
@@ -11,14 +13,20 @@ const Header = () => {
           StayProductive
         </NavLink>
         <div className="navbar-nav align-items-center">
-          <NavLink to="/" exact className="nav-item nav-link">
-            Home
-          </NavLink>
-          <NavLink to="/dashboard" exact className="nav-item nav-link">
-            Dashboard
-          </NavLink>
-          <NavLink to="/about" exact className="nav-item nav-link ">
-            About
+          <React.Fragment>
+            <NavLink to="/dashboard" exact className="nav-item nav-link">
+              Dashboard
+            </NavLink>
+            <NavLink to="/about" exact className="nav-item nav-link ">
+              About
+            </NavLink>
+            <NavLink to="/logout" exact className="nav-item nav-link ">
+              Logout
+            </NavLink>
+            <li>{user.name}</li>
+          </React.Fragment>
+          <NavLink to="/Login" exact className="nav-item nav-link ">
+            Login
           </NavLink>
         </div>
       </div>
@@ -26,4 +34,14 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
