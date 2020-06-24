@@ -23,14 +23,29 @@ class DashboardPage extends Component {
 
   componentDidMount() {
     console.log("Dashboard-componentDidMount-->");
+    console.log("Errors:", this.state.errors);
 
     if (this.props.projects.length === 0) {
       this.props.loadProjects();
     }
+    console.log("errors local-", this.state.errors);
+
+    if (this.state.errors.onLoad) {
+      toast.error(this.state.errors.onLoad, {
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
+    }
   }
 
-  componentDidUpdate() {
-    if (this.props.errorMessage) toast.error(this.props.errorMessage);
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors != this.props.errors) {
+      this.setState({ errors: { ...this.props.errors } });
+      console.log("Local Errors", this.state.errors);
+      // toast.error(this.props.errors.onLoad);
+    }
+    console.log("Previous Errors", prevProps.errors);
+    console.log("Current Errors", this.props.errors);
   }
 
   handleTaskInputChange = (event) => {
@@ -53,7 +68,6 @@ class DashboardPage extends Component {
     this.props.saveProject(this.state.project);
     const project = { ...this.state.project, name: "" };
     this.setState({ project });
-    // toast.info("Project Saved", { autoClose: 1000, hideProgressBar: true });
   };
 
   handleProjectInputChange = (event) => {
@@ -64,6 +78,7 @@ class DashboardPage extends Component {
 
   render() {
     console.log("Inside render");
+
     return (
       <div className="container px-0 mt-1 ml-0 px-0 pb-5 h-100">
         <br />
@@ -98,7 +113,7 @@ DashboardPage.propTypes = {
   tasks: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
   loadProjects: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
+  errors: PropTypes.object,
   isFetching: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
 };
@@ -110,7 +125,7 @@ const mapStateToProps = (state) => {
   return {
     tasks: state.tasks,
     projects: state.projects.list,
-    errorMessage: state.projects.errorMessage,
+    errors: state.projects.errors,
     isFetching: state.projects.isFetching,
   };
 };
