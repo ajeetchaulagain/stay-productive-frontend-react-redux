@@ -1,5 +1,6 @@
 // import Pomodoro from "./Pomodoro";
 import React, { Component } from "react";
+import Joi from "@hapi/joi";
 // import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as taskActions from "../../store/actions/taskActions";
@@ -19,6 +20,7 @@ class DashboardPage extends Component {
       name: "",
     },
     errors: {},
+    projectInputErrors: "",
   };
 
   componentDidMount() {
@@ -27,25 +29,21 @@ class DashboardPage extends Component {
 
     if (this.props.projects.length === 0) {
       this.props.loadProjects();
-    }
-    console.log("errors local-", this.state.errors);
-
-    if (this.state.errors.onLoad) {
-      toast.error(this.state.errors.onLoad, {
-        autoClose: 1000,
-        hideProgressBar: true,
-      });
+      // console.log("action dispatched");
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.errors != this.props.errors) {
-      this.setState({ errors: { ...this.props.errors } });
-      console.log("Local Errors", this.state.errors);
-      // toast.error(this.props.errors.onLoad);
+    // if (prevProps.errors !== this.props.errors) {
+    //   this.setState({ errors: { ...this.props.errors } });
+    // }
+
+    if (this.props.errors.onLoad) {
+      toast.error(this.props.errors.onLoad, {
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
     }
-    console.log("Previous Errors", prevProps.errors);
-    console.log("Current Errors", this.props.errors);
   }
 
   handleTaskInputChange = (event) => {
@@ -62,12 +60,27 @@ class DashboardPage extends Component {
     toast.success("Task Added", { autoClose: 1000, hideProgressBar: true });
   };
 
+  validateProjectInputFormData = (data) => {
+    const schema = Joi.object({
+      name: Joi.string().required().min(5),
+    });
+    return schema.validate(data, { abortEarly: true });
+  };
+
   handleProjectFormSubmit = (event) => {
     event.preventDefault();
+
+    const { error } = this.validateProjectInputFormData(this.state.project);
+
+    if (error) {
+      this.setState({ projectInputErrors: error });
+      console.log("project input form error", error);
+    } else {
+      this.props.saveProject(this.state.project);
+      const project = { ...this.state.project, name: "" };
+      this.setState({ project });
+    }
     // this.props.createProject(this.state.project);
-    this.props.saveProject(this.state.project);
-    const project = { ...this.state.project, name: "" };
-    this.setState({ project });
   };
 
   handleProjectInputChange = (event) => {

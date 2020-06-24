@@ -14,6 +14,7 @@ const projectReducer = (
       return {
         ...state,
         isFetching: true,
+        errors: {},
       };
     // case types.CREATE_PROJECT:
     //   return [...state, { ...action.project }];
@@ -22,6 +23,7 @@ const projectReducer = (
         ...state,
         isFetching: false,
         list: action.payload,
+        errors: {},
       };
 
     case types.LOAD_PROJECTS_FAILURE:
