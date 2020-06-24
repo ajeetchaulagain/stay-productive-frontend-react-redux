@@ -9,14 +9,12 @@ const ProjectSection = (props) => {
           Projects
         </li>
 
-        {props.projects.map((project) => (
-          <li
-            className="list-group-item list-group-item-action"
-            key={project.title}
-          >
-            {project.title}
-          </li>
-        ))}
+        {props.projects &&
+          props.projects.map((project, i = 0) => (
+            <li className="list-group-item list-group-item-action" key={i}>
+              {project.name}
+            </li>
+          ))}
       </div>
       <br />
       <form onSubmit={props.onFormSubmit}>
@@ -34,7 +32,7 @@ const ProjectSection = (props) => {
 };
 
 ProjectSection.propTypes = {
-  projects: PropTypes.array.isRequired,
+  projects: PropTypes.array,
   onFormSubmit: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,

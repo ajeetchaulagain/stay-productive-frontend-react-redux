@@ -1,18 +1,33 @@
 import * as types from "./actionTypes";
 
-const action = {
-  type: "API_CALL_START",
-  payload: {
-    url: "/projects",
-    mnethod: "get",
-    data: {},
-    onSuccess: "PROJECT_LOADED",
-    onError: "API_REQUEST_FAILED",
-  },
+import { apiAction } from "./apiActions";
+
+export const loadProjects = () => {
+  return (dispatch) => {
+    dispatch({ type: types.LOAD_PROJECTS });
+    dispatch(
+      apiAction({
+        url: "/projects",
+        onSuccess: types.LOAD_PROJECTS_SUCCESS,
+        onError: types.LOAD_PROJECTS_FAILURE,
+      })
+    );
+  };
 };
 
-export const loadProject = () => {
-  return { type: "API_CALL_START", payload: action.payload };
+export const saveProject = (project) => {
+  return (dispatch) => {
+    dispatch({ type: types.SAVE_PROJECT, payload: project });
+    dispatch(
+      apiAction({
+        url: "/projects",
+        method: "POST",
+        data: project,
+        onSuccess: types.SAVE_PROJECT_SUCCESS,
+        onError: types.SAVE_PROJECT_FAILURE,
+      })
+    );
+  };
 };
 
 export const createProject = (project) => {
