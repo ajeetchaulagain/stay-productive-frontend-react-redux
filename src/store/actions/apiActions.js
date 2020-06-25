@@ -6,6 +6,7 @@ export const apiAction = ({
   data = null,
   onSuccess = "",
   onError = "",
+  onStart = "",
 }) => ({
   type: types.API_CALL_START,
   payload: {
@@ -14,5 +15,6 @@ export const apiAction = ({
     data,
     onSuccess,
     onError,
+    onStart,
   },
 });

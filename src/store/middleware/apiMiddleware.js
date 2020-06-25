@@ -5,9 +5,12 @@ import * as types from "../actions/actionTypes";
 
 const api = ({ dispatch }) => (next) => async (action) => {
   if (action.type != "API_CALL_START") return next(action);
+
   next(action);
 
-  const { url, method, onSuccess, onError, data } = action.payload;
+  const { url, method, onSuccess, onError, onStart, data } = action.payload;
+
+  if (onStart) dispatch({ type: onStart });
 
   axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 
@@ -21,12 +24,30 @@ const api = ({ dispatch }) => (next) => async (action) => {
     dispatch({ type: types.API_CALL_SUCCESS });
     dispatch({ type: onSuccess, payload: response.data });
   } catch (error) {
-    dispatch({ type: types.API_CALL_FAILURE });
-    if (error.response) {
-      dispatch({ type: onError, payload: error.response.data });
-    } else if (error.request) {
-      console.log("error response", error.request);
-      dispatch({ type: onError, payload: "Unexpected Error Occurred" });
+    const expectedError =
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status < 500;
+
+    if (!expectedError) {
+      dispatch({
+        type: types.API_CALL_FAILURE,
+        error: {
+          code: error.response ? error.response.status : null,
+          message: "Oops Unexpected Error Occurred",
+        },
+      });
+      dispatch({ type: onError });
+    } else if (expectedError) {
+      console.log("Expected Error");
+      dispatch({
+        type: types.API_CALL_FAILURE,
+        error: {
+          code: error.response.status,
+          message: error.response.data,
+        },
+      });
+      dispatch({ type: onError });
     }
   }
 };

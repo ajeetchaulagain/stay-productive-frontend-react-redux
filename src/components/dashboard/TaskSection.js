@@ -11,14 +11,14 @@ import {
 const TaskSection = (props) => {
   return (
     <div className="col taskWrapper">
-      <form onSubmit={props.onFormSubmit}>
+      <form onSubmit={props.onSubmit}>
         <input
           className="form-control mb-4"
           id="taskInput"
           type="text"
           placeholder="Add a task, Press enter to save"
           value={props.value}
-          onChange={props.onInputChange}
+          onChange={props.onChange}
         />
         <br />
       </form>
@@ -81,8 +81,8 @@ const TaskSection = (props) => {
 
 TaskSection.propTypes = {
   tasks: PropTypes.array.isRequired,
-  onFormSubmit: PropTypes.func.isRequired,
-  onInputChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
 

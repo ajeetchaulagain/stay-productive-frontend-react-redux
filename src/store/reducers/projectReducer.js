@@ -5,7 +5,6 @@ const projectReducer = (
     list: [],
     isFetching: false,
     lastFetch: null,
-    errors: {},
   },
   action
 ) => {
@@ -14,7 +13,6 @@ const projectReducer = (
       return {
         ...state,
         isFetching: true,
-        errors: {},
       };
     // case types.CREATE_PROJECT:
     //   return [...state, { ...action.project }];
@@ -23,33 +21,29 @@ const projectReducer = (
         ...state,
         isFetching: false,
         list: action.payload,
-        errors: {},
       };
 
     case types.LOAD_PROJECTS_FAILURE:
       return {
         ...state,
         isFetching: false,
-        errors: { ...state.errors, onLoad: action.payload },
       };
 
     case types.SAVE_PROJECT:
       return {
         ...state,
-        list: [...state.list, { ...action.payload }],
+        // list: [...state.list, { ...action.payload }],
       };
 
     case types.SAVE_PROJECT_SUCCESS:
       return {
         ...state,
-        // isFetching: false,
-        // list: [...state.list, { ...action.payload }],
+        list: [...state.list, { ...action.payload }],
       };
 
     case types.SAVE_PROJECT_FAILURE:
       return {
         ...state,
-        isFetching: false,
       };
 
     default:

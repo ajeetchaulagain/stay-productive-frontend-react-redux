@@ -41,6 +41,10 @@ module.exports = {
         use: ["babel-loader", "eslint-loader"],
       },
       {
+        test: /(\.wav)$/,
+        use: "file-loader",
+      },
+      {
         test: /(\.css)$/,
         use: ["style-loader", "css-loader"],
       },

@@ -1,7 +1,5 @@
-// import Pomodoro from "./Pomodoro";
 import React, { Component } from "react";
 import Joi from "@hapi/joi";
-// import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as taskActions from "../../store/actions/taskActions";
 import * as projectActions from "../../store/actions/projectActions";
@@ -19,32 +17,41 @@ class DashboardPage extends Component {
     project: {
       name: "",
     },
-    errors: {},
+
+    apiErrorMessage: "",
+
     projectInputErrors: "",
+    showProjectModal: false,
   };
 
   componentDidMount() {
-    console.log("Dashboard-componentDidMount-->");
-    console.log("Errors:", this.state.errors);
-
+    console.log("componentDidMount() called");
     if (this.props.projects.length === 0) {
       this.props.loadProjects();
-      // console.log("action dispatched");
     }
   }
 
   componentDidUpdate(prevProps) {
-    // if (prevProps.errors !== this.props.errors) {
-    //   this.setState({ errors: { ...this.props.errors } });
-    // }
+    console.log("componentDidUpdate() called");
 
-    if (this.props.errors.onLoad) {
-      toast.error(this.props.errors.onLoad, {
-        autoClose: 1000,
-        hideProgressBar: true,
-      });
+    if (prevProps.apiError !== this.props.apiError) {
+      console.log("apiErrro", this.props.apiError);
+      if (this.props.apiError) toast.error(this.props.apiError);
     }
+
+    // if (prevProps.apiError !== this.props.apiError) {
+    //   this.setState({ apiErrorMessage: this.props.apiError });
+    //   console.log("serverError->", this.state.serverError);
+    // }
   }
+
+  handleAddProject = () => {
+    this.setState({ showProjectModal: true });
+  };
+
+  handleHideModal = () => {
+    this.setState({ showProjectModal: false });
+  };
 
   handleTaskInputChange = (event) => {
     const task = { ...this.state.task, title: event.target.value };
@@ -71,46 +78,52 @@ class DashboardPage extends Component {
     event.preventDefault();
 
     const { error } = this.validateProjectInputFormData(this.state.project);
-
     if (error) {
-      this.setState({ projectInputErrors: error });
-      console.log("project input form error", error);
+      this.setState({ projectInputErrors: error.details[0].message });
     } else {
       this.props.saveProject(this.state.project);
+      this.setState({ projectInputErrors: "" });
+      this.setState({ showProjectModal: false });
+      this.setState({});
       const project = { ...this.state.project, name: "" };
       this.setState({ project });
     }
-    // this.props.createProject(this.state.project);
   };
 
   handleProjectInputChange = (event) => {
     const project = { ...this.state.project, name: event.target.value };
     this.setState({ project });
-    console.log("state object-", this.state);
+  };
+
+  handleAddProject = () => {
+    this.setState({ showProjectModal: true });
+    console.log("showModal->", this.state.showProjectModal);
   };
 
   render() {
-    console.log("Inside render");
-
+    console.log("render() called");
     return (
       <div className="container px-0 mt-1 ml-0 px-0 pb-5 h-100">
         <br />
         <br />
-
         {this.props.isFetching ? (
           <Spinner />
         ) : (
           <div className="row">
             <ProjectSection
-              onFormSubmit={this.handleProjectFormSubmit}
-              projects={this.props.projects}
-              onInputChange={this.handleProjectInputChange}
+              onSubmit={this.handleProjectFormSubmit}
+              projects={this.props.projects.slice().reverse()}
+              onChange={this.handleProjectInputChange}
               value={this.state.project.name}
+              errors={this.state.projectInputErrors}
+              showModal={this.state.showProjectModal}
+              onAddButtonClick={this.handleAddProject}
+              onHide={this.handleHideModal}
             />
             <TaskSection
-              onFormSubmit={this.handleTaskFormSubmit}
+              onSubmit={this.handleTaskFormSubmit}
               tasks={this.props.tasks}
-              onInputChange={this.handleTaskInputChange}
+              onChange={this.handleTaskInputChange}
               value={this.state.task.title}
             />
           </div>
@@ -126,19 +139,18 @@ DashboardPage.propTypes = {
   tasks: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
   loadProjects: PropTypes.func.isRequired,
-  errors: PropTypes.object,
+  apiError: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
+  projectInputErrors: PropTypes.string,
 };
 
 // Mapping State to Props
 const mapStateToProps = (state) => {
-  // debugger;
-  console.log(state.projects);
   return {
     tasks: state.tasks,
     projects: state.projects.list,
-    errors: state.projects.errors,
+    apiError: state.apiError.message,
     isFetching: state.projects.isFetching,
   };
 };

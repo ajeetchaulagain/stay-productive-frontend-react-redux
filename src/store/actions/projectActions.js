@@ -8,6 +8,7 @@ export const loadProjects = () => {
     dispatch(
       apiAction({
         url: "/projects",
+
         onSuccess: types.LOAD_PROJECTS_SUCCESS,
         onError: types.LOAD_PROJECTS_FAILURE,
       })
