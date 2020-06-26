@@ -1,43 +1,21 @@
 import React from "react";
-
 import { PropTypes } from "prop-types";
 import { FaPlusCircle, FaTrashAlt, FaEdit } from "react-icons/fa";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import PopupModalForm from "../common/PopupForm";
+import TextInput from "../common/TextInput";
 
-const ProjectSection = (props) => {
+const ProjectSection = ({ value, onChange, ...props }) => {
   return (
     <div className="col-3" style={{ textAlign: "left" }}>
-      <Modal show={props.showModal} onHide={props.onHide} centered>
-        <Modal.Header
-          style={{ backgroundColor: "#000", color: "#fff", fontSize: "10px" }}
-        >
-          <Modal.Title>Add a Project</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={props.onSubmit}>
-            <input
-              className="form-control mb-4"
-              id="projectInput"
-              type="text"
-              value={props.value}
-              onChange={props.onChange}
-              placeholder="Add a Project"
-            />
-          </form>
-          {props.errors && <div className="text-danger">{props.errors}</div>}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" size="sm" onClick={props.onSubmit}>
-            Add Project{" "}
-            <span
-              className="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            ></span>
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <PopupModalForm {...props} title="Add New Project" buttonTitle="Save">
+        <TextInput
+          name="projectInput"
+          value={value}
+          onChange={onChange}
+          placeHolder="Add a Project"
+        />
+      </PopupModalForm>
+
       <div className="list-group">
         <li
           className="list-group-item 
@@ -56,11 +34,7 @@ const ProjectSection = (props) => {
         {props.projects &&
           props.projects.map((project) => (
             <a
-              className={
-                project === props.activeProject
-                  ? "list-group-item list-group-item-action d-flex justify-content-between shadow-none active bg-info"
-                  : "list-group-item list-group-item-action d-flex justify-content-between shadow-none"
-              }
+              className="list-group-item list-group-item-action d-flex justify-content-between shadow-none"
               style={{ fontSize: "15px" }}
               key={project._id}
             >
@@ -99,9 +73,7 @@ ProjectSection.propTypes = {
   value: PropTypes.string.isRequired,
   errors: PropTypes.string,
   showModal: PropTypes.bool.isRequired,
-  onHide: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  activeProject: PropTypes.obj,
 };
 
 export default ProjectSection;

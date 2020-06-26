@@ -18,17 +18,15 @@ class DashboardPage extends Component {
       name: "",
     },
 
-    activeProject: null,
-
     apiErrorMessage: "",
-
-    projectInputErrors: "",
+    projectInputError: "",
     showProjectModal: false,
   };
 
   componentDidMount() {
+    const { projects } = this.props;
     console.log("componentDidMount() called");
-    if (this.props.projects.length === 0) {
+    if (projects.length === 0) {
       this.props.loadProjects();
     }
   }
@@ -36,15 +34,11 @@ class DashboardPage extends Component {
   componentDidUpdate(prevProps) {
     console.log("componentDidUpdate() called");
 
-    if (prevProps.apiError !== this.props.apiError) {
-      console.log("apiErrro", this.props.apiError);
-      if (this.props.apiError) toast.error(this.props.apiError);
+    const { apiError } = this.props;
+    if (prevProps.apiError !== apiError) {
+      console.log("apiErrro", apiError);
+      if (apiError) toast.error(apiError);
     }
-
-    // if (prevProps.apiError !== this.props.apiError) {
-    //   this.setState({ apiErrorMessage: this.props.apiError });
-    //   console.log("serverError->", this.state.serverError);
-    // }
   }
 
   handleAddProject = () => {
@@ -82,17 +76,21 @@ class DashboardPage extends Component {
 
   handleProjectFormSubmit = (event) => {
     event.preventDefault();
-
     const { error } = this.validateProjectInputFormData(this.state.project);
     if (error) {
-      this.setState({ projectInputErrors: error.details[0].message });
+      this.setState({ projectInputError: error.details[0].message });
     } else {
       this.props.saveProject(this.state.project);
-      this.setState({ projectInputErrors: "" });
-      this.setState({ showProjectModal: false });
-      this.setState({});
+      // this.setState({ projectInputError: "" });
+      // this.setState({ showProjectModal: false });
+      // this.setState({});
       const project = { ...this.state.project, name: "" };
-      this.setState({ project });
+
+      this.setState({
+        project,
+        projectInputError: "",
+        showProjectModal: false,
+      });
     }
   };
 
@@ -107,7 +105,8 @@ class DashboardPage extends Component {
   };
 
   render() {
-    console.log("render() called");
+    const { task, project, projectInputError, showProjectModal } = this.state;
+    const { tasks, projects } = this.props;
     return (
       <div className="container px-0 mt-1 ml-0 px-0 pb-5 h-100">
         <br />
@@ -117,22 +116,21 @@ class DashboardPage extends Component {
         ) : (
           <div className="row">
             <ProjectSection
-              activeProject={this.props.projects.slice().reverse()[2]}
               onSubmit={this.handleProjectFormSubmit}
-              projects={this.props.projects.slice().reverse()}
+              projects={projects.slice().reverse()}
               onChange={this.handleProjectInputChange}
-              value={this.state.project.name}
-              errors={this.state.projectInputErrors}
-              showModal={this.state.showProjectModal}
+              value={project.name}
+              errors={projectInputError}
+              showModal={showProjectModal}
               onAddButtonClick={this.handleAddProject}
               onHide={this.handleHideModal}
               onDelete={this.handleDeleteProject}
             />
             <TaskSection
               onSubmit={this.handleTaskFormSubmit}
-              tasks={this.props.tasks}
+              tasks={tasks}
               onChange={this.handleTaskInputChange}
-              value={this.state.task.title}
+              value={task.title}
             />
           </div>
         )}
@@ -150,7 +148,7 @@ DashboardPage.propTypes = {
   apiError: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
-  projectInputErrors: PropTypes.string,
+  projectInputError: PropTypes.string,
   deleteProject: PropTypes.func.isRequired,
 };
 
