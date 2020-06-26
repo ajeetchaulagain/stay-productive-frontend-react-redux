@@ -54,11 +54,15 @@ const ProjectSection = (props) => {
         </li>
 
         {props.projects &&
-          props.projects.map((project, i = 0) => (
+          props.projects.map((project) => (
             <a
-              className="list-group-item list-group-item-action d-flex justify-content-between shadow-none"
+              className={
+                project === props.activeProject
+                  ? "list-group-item list-group-item-action d-flex justify-content-between shadow-none active bg-info"
+                  : "list-group-item list-group-item-action d-flex justify-content-between shadow-none"
+              }
               style={{ fontSize: "15px" }}
-              key={i}
+              key={project._id}
             >
               {project.name}
 
@@ -66,7 +70,10 @@ const ProjectSection = (props) => {
                 className="d-flex ml-1"
                 style={{ fontSize: "16px", height: "auto" }}
               >
-                <button className="btn btn-sm shadow-none">
+                <button
+                  className="btn btn-sm shadow-none"
+                  onClick={() => props.onDelete(project)}
+                >
                   <FaTrashAlt />
                 </button>
                 <button
@@ -93,6 +100,8 @@ ProjectSection.propTypes = {
   errors: PropTypes.string,
   showModal: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  activeProject: PropTypes.obj,
 };
 
 export default ProjectSection;

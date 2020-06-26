@@ -31,6 +31,22 @@ export const saveProject = (project) => {
   };
 };
 
+export const deleteProject = (project) => {
+  return (dispatch) => {
+    dispatch({ type: types.DELETE_PROJECT, payload: project });
+    dispatch(
+      apiAction({
+        url: `/projects/${project._id}`,
+        method: "DELETE",
+        onSuccess: types.DELETE_PROJECT_SUCCESS,
+        onError: types.DELETE_PROJECT_FAILURE,
+        optimistic: true,
+        optimisticRevertValue: project,
+      })
+    );
+  };
+};
+
 export const createProject = (project) => {
   return { type: types.CREATE_PROJECT, project };
 };

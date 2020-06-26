@@ -46,6 +46,21 @@ const projectReducer = (
         ...state,
       };
 
+    case types.DELETE_PROJECT:
+      return {
+        ...state,
+        list: state.list.filter(
+          (project) => project._id !== action.payload._id
+        ),
+      };
+
+    // I have done optimistic delete, so need to rever state on failure
+    case types.DELETE_PROJECT_FAILURE:
+      return {
+        ...state,
+        list: [...state.list, { ...action.payload }],
+      };
+
     default:
       return state;
   }

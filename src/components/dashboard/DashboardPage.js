@@ -18,6 +18,8 @@ class DashboardPage extends Component {
       name: "",
     },
 
+    activeProject: null,
+
     apiErrorMessage: "",
 
     projectInputErrors: "",
@@ -51,6 +53,10 @@ class DashboardPage extends Component {
 
   handleHideModal = () => {
     this.setState({ showProjectModal: false });
+  };
+
+  handleDeleteProject = (project) => {
+    this.props.deleteProject(project);
   };
 
   handleTaskInputChange = (event) => {
@@ -111,6 +117,7 @@ class DashboardPage extends Component {
         ) : (
           <div className="row">
             <ProjectSection
+              activeProject={this.props.projects.slice().reverse()[2]}
               onSubmit={this.handleProjectFormSubmit}
               projects={this.props.projects.slice().reverse()}
               onChange={this.handleProjectInputChange}
@@ -119,6 +126,7 @@ class DashboardPage extends Component {
               showModal={this.state.showProjectModal}
               onAddButtonClick={this.handleAddProject}
               onHide={this.handleHideModal}
+              onDelete={this.handleDeleteProject}
             />
             <TaskSection
               onSubmit={this.handleTaskFormSubmit}
@@ -143,6 +151,7 @@ DashboardPage.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
   projectInputErrors: PropTypes.string,
+  deleteProject: PropTypes.func.isRequired,
 };
 
 // Mapping State to Props
@@ -161,6 +170,7 @@ const mapDispatchToProps = {
   loadProjects: projectActions.loadProjects,
   createProject: projectActions.createProject,
   saveProject: projectActions.saveProject,
+  deleteProject: projectActions.deleteProject,
 };
 
 // const mapDispatchToProps = (dispatch) => {

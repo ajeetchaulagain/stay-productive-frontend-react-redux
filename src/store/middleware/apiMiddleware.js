@@ -8,11 +8,21 @@ const api = ({ dispatch }) => (next) => async (action) => {
 
   next(action);
 
-  const { url, method, onSuccess, onError, onStart, data } = action.payload;
+  const {
+    url,
+    method,
+    onSuccess,
+    onError,
+    onStart,
+    data,
+    optimisticRevertValue,
+  } = action.payload;
 
   if (onStart) dispatch({ type: onStart });
 
   axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+
+  console.log("url---", url);
 
   try {
     const response = await axios.request({
@@ -37,7 +47,10 @@ const api = ({ dispatch }) => (next) => async (action) => {
           message: "Oops Unexpected Error Occurred",
         },
       });
-      dispatch({ type: onError });
+      dispatch({
+        type: onError,
+        payload: optimisticRevertValue ? optimisticRevertValue : null,
+      });
     } else if (expectedError) {
       console.log("Expected Error");
       dispatch({
@@ -47,7 +60,10 @@ const api = ({ dispatch }) => (next) => async (action) => {
           message: error.response.data,
         },
       });
-      dispatch({ type: onError });
+      dispatch({
+        type: onError,
+        payload: optimisticRevertValue ? optimisticRevertValue : null,
+      });
     }
   }
 };

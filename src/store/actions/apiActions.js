@@ -7,6 +7,7 @@ export const apiAction = ({
   onSuccess = "",
   onError = "",
   onStart = "",
+  optimisticRevertValue = "",
 }) => ({
   type: types.API_CALL_START,
   payload: {
@@ -16,5 +17,6 @@ export const apiAction = ({
     onSuccess,
     onError,
     onStart,
+    optimisticRevertValue,
   },
 });
