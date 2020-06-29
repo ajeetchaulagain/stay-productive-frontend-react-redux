@@ -16,11 +16,11 @@ const ProjectSection = ({ value, onChange, ...props }) => {
         />
       </PopupModalForm>
 
-      <div className="list-group">
+      <div className="list-group h-75">
         <li
           className="list-group-item 
-        font-weight-bold bg-dark text-light 
-        d-flex justify-content-between"
+            font-weight-bold bg-dark text-light 
+            d-flex justify-content-between"
         >
           Projects{" "}
           <button
@@ -35,7 +35,7 @@ const ProjectSection = ({ value, onChange, ...props }) => {
           props.projects.map((project) => (
             <a
               className="list-group-item list-group-item-action d-flex justify-content-between shadow-none"
-              style={{ fontSize: "15px" }}
+              style={{ fontSize: "14px" }}
               key={project._id}
             >
               {project.name}
@@ -45,13 +45,13 @@ const ProjectSection = ({ value, onChange, ...props }) => {
                 style={{ fontSize: "16px", height: "auto" }}
               >
                 <button
-                  className="btn btn-sm shadow-none"
+                  className="btn btn-sm shadow-none text-danger"
                   onClick={() => props.onDelete(project)}
                 >
                   <FaTrashAlt />
                 </button>
                 <button
-                  className="btn  btn-sm shadow-none"
+                  className="btn text-primary btn-sm shadow-none"
                   onClick={() => alert("delete")}
                 >
                   <FaEdit />

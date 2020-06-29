@@ -22,8 +22,6 @@ const api = ({ dispatch }) => (next) => async (action) => {
 
   axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 
-  console.log("url---", url);
-
   try {
     const response = await axios.request({
       baseURL: API_URL,

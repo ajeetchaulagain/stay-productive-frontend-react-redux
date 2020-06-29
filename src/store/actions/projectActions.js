@@ -2,13 +2,13 @@ import * as types from "./actionTypes";
 
 import { apiAction } from "./apiActions";
 
+// Loading project
 export const loadProjects = () => {
   return (dispatch) => {
     dispatch({ type: types.LOAD_PROJECTS });
     dispatch(
       apiAction({
         url: "/projects",
-
         onSuccess: types.LOAD_PROJECTS_SUCCESS,
         onError: types.LOAD_PROJECTS_FAILURE,
       })
@@ -31,6 +31,7 @@ export const saveProject = (project) => {
   };
 };
 
+// Action Dispatcher for deleting project through API
 export const deleteProject = (project) => {
   return (dispatch) => {
     dispatch({ type: types.DELETE_PROJECT, payload: project });

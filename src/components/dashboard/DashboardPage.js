@@ -18,8 +18,8 @@ class DashboardPage extends Component {
       name: "",
     },
 
-    apiErrorMessage: "",
     projectInputError: "",
+
     showProjectModal: false,
   };
 
@@ -34,10 +34,10 @@ class DashboardPage extends Component {
   componentDidUpdate(prevProps) {
     console.log("componentDidUpdate() called");
 
-    const { apiError } = this.props;
-    if (prevProps.apiError !== apiError) {
-      console.log("apiErrro", apiError);
-      if (apiError) toast.error(apiError);
+    const { apiErrorMessage } = this.props;
+    if (prevProps.apiErrorMessage !== apiErrorMessage) {
+      console.log("apiErrorMessage", apiErrorMessage);
+      if (apiErrorMessage) toast.error(apiErrorMessage);
     }
   }
 
@@ -107,8 +107,12 @@ class DashboardPage extends Component {
   render() {
     const { task, project, projectInputError, showProjectModal } = this.state;
     const { tasks, projects } = this.props;
+
+    console.log("Dashboard Pager - render() method");
+
+    const wrapperClass = "container px-0 mt-1 ml-0 px-0 pb-5 h-100";
     return (
-      <div className="container px-0 mt-1 ml-0 px-0 pb-5 h-100">
+      <div className={wrapperClass}>
         <br />
         <br />
         {this.props.isFetching ? (
@@ -145,7 +149,7 @@ DashboardPage.propTypes = {
   tasks: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
   loadProjects: PropTypes.func.isRequired,
-  apiError: PropTypes.string,
+  apiErrorMessage: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
   saveProject: PropTypes.func.isRequired,
   projectInputError: PropTypes.string,
@@ -154,10 +158,13 @@ DashboardPage.propTypes = {
 
 // Mapping State to Props
 const mapStateToProps = (state) => {
+  console.log("state-", state);
+  debugger;
+
   return {
     tasks: state.tasks,
     projects: state.projects.list,
-    apiError: state.apiError.message,
+    apiErrorMessage: state.apiError.message,
     isFetching: state.projects.isFetching,
   };
 };

@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import tasks from "./taskReducer";
 import projects from "./projectReducer";
 import user from "./authReducer";
-import apiError from "./apiReducer";
+import apiError from "./apiErrorReducer";
 
 const rootReducer = combineReducers({
   tasks,
