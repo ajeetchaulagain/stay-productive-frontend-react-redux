@@ -61,6 +61,25 @@ const projectReducer = (
         list: [...state.list, { ...action.payload }],
       };
 
+    case types.UPDATE_PROJECT:
+      return {
+        ...state,
+        isFetching: true,
+      };
+
+    case types.UPDATE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        list: [...state.list, { ...action.payload }],
+      };
+
+    case types.UPDATE_PROJECT_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+      };
+
     default:
       return state;
   }

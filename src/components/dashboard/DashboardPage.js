@@ -104,6 +104,10 @@ class DashboardPage extends Component {
     console.log("showModal->", this.state.showProjectModal);
   };
 
+  handleUpdateProject = () => {
+    this.setState({ showProjectModal: false });
+  };
+
   render() {
     const { task, project, projectInputError, showProjectModal } = this.state;
     const { tasks, projects } = this.props;
@@ -129,6 +133,7 @@ class DashboardPage extends Component {
               onAddButtonClick={this.handleAddProject}
               onHide={this.handleHideModal}
               onDelete={this.handleDeleteProject}
+              onUpdateButtonClick={this.handleUpdateProject}
             />
             <TaskSection
               onSubmit={this.handleTaskFormSubmit}
@@ -176,6 +181,7 @@ const mapDispatchToProps = {
   createProject: projectActions.createProject,
   saveProject: projectActions.saveProject,
   deleteProject: projectActions.deleteProject,
+  updateProject: projectActions.updateProject,
 };
 
 // const mapDispatchToProps = (dispatch) => {
