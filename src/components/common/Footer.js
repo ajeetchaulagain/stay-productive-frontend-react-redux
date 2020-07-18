@@ -1,12 +1,19 @@
 import React from "react";
+import { Layout } from "antd";
+import styled from "styled-components";
+
+const { Footer: FooterWrapper } = Layout;
+
+const StyledFooter = styled(FooterWrapper)`
+  background-color: #1a1a1a;
+  color: white;
+`;
 
 const Footer = () => {
   return (
-    <div className="container-fluid bg-dark mt-5">
-      <div className="container pt-4">
-        <p>This is a footer component</p>
-      </div>
-    </div>
+    <StyledFooter theme="dark">
+      <p>This is footer</p>
+    </StyledFooter>
   );
 };
 

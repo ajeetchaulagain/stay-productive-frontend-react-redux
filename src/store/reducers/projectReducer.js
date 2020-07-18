@@ -32,18 +32,21 @@ const projectReducer = (
     case types.SAVE_PROJECT:
       return {
         ...state,
+        isFetching: true,
         // list: [...state.list, { ...action.payload }],
       };
 
     case types.SAVE_PROJECT_SUCCESS:
       return {
         ...state,
+        isFetching: false,
         list: [...state.list, { ...action.payload }],
       };
 
     case types.SAVE_PROJECT_FAILURE:
       return {
         ...state,
+        isFetching: false,
       };
 
     case types.DELETE_PROJECT:
