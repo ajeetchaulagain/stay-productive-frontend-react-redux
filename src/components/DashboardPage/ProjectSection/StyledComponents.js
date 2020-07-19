@@ -25,3 +25,17 @@ export const ListWrapper = styled.ul`
     justify-content: space-between;
   }
 `;
+
+export const ProjectSectionHeaderWrapper = styled.div`
+  background-color: #b3b3b3;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 20px;
+`;
+
+// For DrawerForm Component
+export const InputErrorWrapper = styled.span`
+  color: red;
+`;

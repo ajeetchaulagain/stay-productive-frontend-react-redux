@@ -68,13 +68,15 @@ const projectReducer = (
       return {
         ...state,
         isFetching: true,
+        list: state.list.map((project) => {
+          return project._id === action.payload._id ? action.payload : project;
+        }),
       };
 
     case types.UPDATE_PROJECT_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        list: [...state.list, { ...action.payload }],
       };
 
     case types.UPDATE_PROJECT_FAILURE:

@@ -1,6 +1,7 @@
 {
   "name": "stay-productive-frontend",
   "description": "Stay Productive Frontend application",
+  "author": "Ajeet Chaulagain",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.dev.js --port 3000"
   },

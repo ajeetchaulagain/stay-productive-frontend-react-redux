@@ -49,19 +49,19 @@ export const deleteProject = (project) => {
 };
 
 export const updateProject = (project) => {
+  const project_id = project._id;
+
   return (dispatch) => {
     dispatch({ type: types.UPDATE_PROJECT, payload: project });
+    delete project._id;
     dispatch(
       apiAction({
-        url: `/projects/${project._id}`,
+        url: `/projects/${project_id}`,
         method: "PUT",
+        data: project,
         onSuccess: types.UPDATE_PROJECT_SUCCESS,
         onError: types.UPDATE_PROJECT_FAILURE,
       })
     );
   };
-};
-
-export const createProject = (project) => {
-  return { type: types.CREATE_PROJECT, project };
 };

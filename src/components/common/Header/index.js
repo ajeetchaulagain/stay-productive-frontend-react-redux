@@ -17,7 +17,7 @@ const StyledHeader = styled(AntHeader)`
 
 const Header = () => {
   return (
-    <StyledHeader theme="light">
+    <StyledHeader>
       <Row justify="space-between">
         <Col className="logo">
           <h3>Stay Productive</h3>

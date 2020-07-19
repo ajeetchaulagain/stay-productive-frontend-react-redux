@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as taskActions from "../../store/actions/taskActions";
 import * as projectActions from "../../store/actions/projectActions";
 import PropTypes from "prop-types";
-import TaskSection from "./TaskSection";
+// import TaskSection from "./TaskSection";
 import ProjectSection from "./ProjectSection";
 import { Row, Col, notification } from "antd";
 import styled from "styled-components";
@@ -30,7 +30,6 @@ class DashboardPage extends Component {
 
   componentDidUpdate(prevProps) {
     console.log("DASHBOARD COMPONENT--------componentDidUpdate");
-
     const { apiErrorMessage } = this.props;
     console.log("apiErrorMessage", apiErrorMessage);
 
@@ -67,21 +66,28 @@ class DashboardPage extends Component {
 
   render() {
     console.log("DASHBOARD COMPONENT--------render");
-    const { tasks, projects } = this.props;
+    const {
+      // tasks,
+      projects,
+      saveProject,
+      deleteProject,
+      updateProject,
+      isFetching,
+    } = this.props;
+
     return (
       <DashboardPageWrapper>
         <Row gutter={20}>
           <Col span={6}>
             <ProjectSection
               projects={projects.slice().reverse()}
-              onSave={this.props.saveProject}
-              isFetching={this.props.isFetching}
-              onDelete={this.props.deleteProject}
+              onSave={saveProject}
+              isFetching={isFetching}
+              onDelete={deleteProject}
+              onUpdate={updateProject}
             />
           </Col>
-          <Col span={18}>
-            <TaskSection tasks={tasks} />
-          </Col>
+          <Col span={18}>{/* <TaskSection tasks={tasks} /> */}</Col>
         </Row>
       </DashboardPageWrapper>
     );
@@ -89,7 +95,6 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes = {
-  createProject: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   tasks: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
@@ -99,12 +104,12 @@ DashboardPage.propTypes = {
   saveProject: PropTypes.func.isRequired,
   projectInputError: PropTypes.string,
   deleteProject: PropTypes.func.isRequired,
+  updateProject: PropTypes.func.isRequired,
 };
 
 // Mapping State to Props
 const mapStateToProps = (state) => {
   console.log("state-", state);
-  // debugger;
 
   return {
     tasks: state.tasks,
@@ -118,18 +123,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   createTask: taskActions.createTask,
   loadProjects: projectActions.loadProjects,
-  createProject: projectActions.createProject,
   saveProject: projectActions.saveProject,
   deleteProject: projectActions.deleteProject,
   updateProject: projectActions.updateProject,
 };
-
-// const mapDispatchToProps = (dispatch) => {
-//   debugger;
-//   return {
-//     taskActions: bindActionCreators(taskActions, dispatch),
-//     projectActions: bindActionCreators(projectActions, dispatch),
-//   };
-// };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
