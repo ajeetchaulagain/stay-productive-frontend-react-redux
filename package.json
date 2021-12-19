@@ -10,7 +10,7 @@
     "antd": "^4.4.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
-    "immer": "8.0.1",
+    "immer": "9.0.6",
     "less-loader": "^6.2.0",
     "moment": "^2.27.0",
     "node-sass": "^7.0.0",
