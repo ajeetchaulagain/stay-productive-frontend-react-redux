@@ -1,0 +1,32 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - antd > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - node-sass > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - antd > @ant-design/react-slick > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - react-bootstrap > @restart/hooks > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > @babel/traverse > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > babel-plugin-styled-components > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - react-bootstrap > react-overlays > @restart/hooks > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > @babel/traverse > @babel/generator > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > babel-plugin-styled-components > @babel/helper-annotate-as-pure > @babel/types > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
+    - styled-components > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2022-10-07T18:39:04.270Z'
